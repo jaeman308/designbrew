@@ -14,15 +14,37 @@ const upload = multer({dest: 'uploads/',
     }
 });
 
-router.get('/:userId/boards', async (req, res) => {
+router.get('/', async (req, res) => { 
     try {
-        const user = await User.findById(req.params.userId);
+        const currentUser = await User.findById(req.session.user._id);
         res.render('boards/index.ejs', {
-            boards: user.boards,
-            userName: user.name,
-            userId: user._id,
-            profilePicture: user.profilePicture
-            
+        boards: currentUser.boards,
+        user: currentUser,
+        })
+    } catch (error) { 
+        console.log(error)
+        res.redirect('/')
+
+    }
+}); 
+
+router.get('/new', async (req, res) => {
+    try {
+        const currentUsre = await User.findById(req.session.user._id);
+    res.render('boards/new.ejs');
+    }catch (error) {
+        console.log(error);
+        res.redirect ('/');
+    }
+});
+
+router.get('/:boardId', async (req, res) => {
+    try{ 
+        const currentUser = await User.findById(req.session.user._id);
+        const board = currentUser.boards.id(req.params.boardId);
+        res.render('boards/show.ejs', {
+            board: board,
+            user: currentUser
         });
     } catch (error) {
         console.log(error);
@@ -30,105 +52,62 @@ router.get('/:userId/boards', async (req, res) => {
     }
 });
 
-router.get('/:userId/boards/new', async (req, res) => { 
-    try {
-        const user = await User.findById(req.params.userId);
-        res.render('boards/new.ejs', {
-        userId: user._id,
-     });
-    } catch (error) {
-        console.log(error);
-        res.redirect("/")
-    }
-});
-
-router.get('/:userId/boards/:boardId', async (req, res) => {
-    try {
-        const currenUuser = await User.findById(req.params.userId);
-        const boardItem = currentUser.boards.id(req.params.boardId);
-        res.render('boards/show.ejs')
-        console.log(error);
-        res.redirect('/');
-    } catch (error) {
-        console.log(error);
-        res.redirect('/');
-    }
-    
-});
-
-
-router.get('/:userId/boards/:boardId/edit', async (req,res) => {
+router.get('/:boardId/edit', async (req, res) => {
     try{
-        const currentUser = await User.findById(req.params.userId);
-        const boardItem = currentUser.boards.id(req.params.boardId);
-        res.render('boards/edit.ejs',{
-            board: boardItem,
-            userId: currentUser._id
+        const currentUser = await User.findById(req.session.user._id);
+        const board = currentUser.boards.id(req.params.boardId);
+        res.render('boards/edit.ejs', {
+            board: board,
         });
-    } catch (error) {
+    }catch (error) {
         console.log(error);
-        res.redirect('/');
+        res.redirect('/')
     }
 });
 
-router.get('/:id', async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id).populate('boards');
-               res.render('allusers/show.ejs', { user, boards: user.boards });
-    } catch (error) {
-        console.log(error);
-        res.redirect('/');
-    }
-});
-
-router.put('/:userId/boards/:boardId', upload.single('image'), async (req, res) => {
+router.put('/:boardId', upload.single('image'), async (req, res) => {
     try{
-        const currentUser = await User.findById(req.params.userId);
-        const boardItem = currentUser.boards.id(req.params.boardId);
+        const currentUser = await User.findById(req.session.user._id);
+        const board = currentUser.boards.id(req.params.boardId);
+        board.set(req.body);
 
-        boardItem.room = req.body.room;
-        boardItem.category = req.body.category;
-        boardItem.description = req.body.description;
-
-        if (req.file) {
-            boardItem.image = req.file.filename;
+        if(req.file) {
+            board.image = req.file.filename;
         }
 
         await currentUser.save();
-        res.redirect(`/users/${currentUser._id}/boards/`);
-
-    } catch (error) {
-        console.log(error);
-        res.redirect('/');
-}
-});
-
-router.post('/:userId/boards', upload.single('image'), async (req, res) => {
-    try {
-        const currentUser = await User.findById(req.params.userId);
-        const newBoardItem = {
-            room: req.body.room,
-            category: req.body.category,
-            image: req.file ? req.file.filename : null,
-            description: req.body.description,
-        };
-        currentUser.boards.push(newBoardItem);
-        await currentUser.save();
-        res.redirect(`/users/${currentUser._id}/boards/`);
+        res.redirect(`/users/${currentUser._id}/boards/${req.params.boardId}`);
     }catch (error) {
         console.log(error);
-        res.redirect('/');
-    };
+        res.redirect('/')
+    }
 });
 
-router.delete('/:userId/boards/:boardId', async (req,res) => {
-    try{
-        const currentUser = await User.findById(req.params.userId);
-        const boardItem = currentUser.boards.id(req.params.boardId);
-        boardItem.deleteOne();
+router.post('/', upload.single('image'), async (req, res) => {
+    try {
+        const currentUser = await User.findById(req.session.user._id);
+        const boardData = {
+            room: req.body.room,
+            category: req.body.category,
+            image: `/uploads/${req.file.filename}`,
+            description: req.body.description
+        }
+        currentUser.boards.push(boardData);
         await currentUser.save();
-        res.redirect(`/users/${currentUser._id}/boards/`);
+        res.redirect(`/users/${currentUser._id}/boards`);
     } catch (error) {
+        console.log(error);
+        res.redirect('/');
+    }
+});
+
+router.delete('/:boardId', async (req, res) => {
+    try {
+        const currentUser = await User.findById(req.session.user._id);
+        currentUser.boards.id(req.params.boardId).deleteOne();
+        await currentUser.save();
+        res.redirect(`/users/${currentUser._id}/boards`);
+    }catch (error) {
         console.log(error);
         res.redirect('/');
     }

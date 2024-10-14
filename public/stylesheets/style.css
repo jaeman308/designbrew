@@ -16,9 +16,10 @@
   }
   :root {
     --offwhite: #f3f0e6;
-    --olive: #628474 ;
+    --olive: #537464 ;
     --taupe: #b4a594;
     --terracotta:#b25d3e;
+    --black: #151308;
   }
 
   /* main html bodies for all pages */
@@ -48,13 +49,14 @@
     float: left;
   }
   .navbar a{
-    color: var(--olive);
+    color: var(--black);
     text-decoration: none;
     padding: 10px 15px;
     transition: back-ground-color 0.3s;
   }
   .navbar a:hover {
     background-color: #555; 
+    color: var(--black);
     border-radius: 4px; 
   }
 
@@ -225,7 +227,7 @@ border: 1px solid #ccc;
   background-color: var(--terracotta);
   font-size: 15px;
   cursor: pointer;
-  color: var(--offwhite);
+  color: #020000;
   font-weight: bold;
 }
 
@@ -282,7 +284,7 @@ outline: none;
   background-color: var(--terracotta);
   font-size: 15px;
   cursor: pointer;
-  color: var(--offwhite);
+  color: #020000;
   font-weight: bold;
 
 }
@@ -305,7 +307,7 @@ outline: none;
     background-color: var(--terracotta);
     font-size: 15px;
     cursor: pointer;
-    color: var(--offwhite);
+    color: #020000;
     font-weight: bold;
   
   }
@@ -331,6 +333,29 @@ outline: none;
 
 
 /* boards index.ejs */
+.allBoards ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-around;
+  align-items: center;
+
+}
+.allBoards a{
+  color: var(--terracotta);
+  text-decoration: none;
+  padding: 10px 15px;
+  transition: back-ground-color 0.3s;
+}
+.allBoards a:hover {
+  background-color: #010101; 
+  border-radius: 4px; 
+}
+
 .inspoBoard ul{
   list-style: none;
   padding: 0;
@@ -366,10 +391,11 @@ outline: none;
   background-color: var(--taupe);
   font-size: 15px;
   cursor: pointer;
-  color: rgb(88, 86, 86);
+  color: var(--black);
   font-weight: bold;
 
 }
+
 
 .editButton {
   border-radius: 20px;
@@ -377,8 +403,18 @@ outline: none;
   background-color: var(--taupe);
   font-size: 15px;
   cursor: pointer;
-  color: rgb(88, 86, 86);
+  color: var(--black);
   font-weight: bold;
+}
+.backBoard {
+  border-radius: 20px;
+  border-color: var(--taupe);
+  background-color: var(--taupe);
+  font-size: 15px;
+  cursor: pointer;
+  color: var(--black);
+  font-weight: bold;
+
 }
 
 /* boards.new.ejs*/
@@ -395,7 +431,7 @@ outline: none;
   background-color: var(--terracotta);
   font-size: 15px;
   cursor: pointer;
-  color: rgb(88, 86, 86);
+  color: #020000;
   font-weight: bold;
 }
 
@@ -431,11 +467,11 @@ outline: none;
 
 .updateButton { 
   border-radius: 20px;
-  border-color: var(--taupe);
+  border-color: var(--olive);
   background-color: var(--olive);
   font-size: 15px;
   cursor: pointer;
-  color: rgb(88, 86, 86);
+  color: #f3f1e6;
   font-weight: bold;
 
 }
@@ -461,6 +497,6 @@ outline: none;
   transition: back-ground-color 0.3s;
 }
 .allusers a:hover {
-  background-color: #555; 
+  background-color: #010101; 
   border-radius: 4px; 
 }

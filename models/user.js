@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const boardSchema = mongoose.Schema ({
+const boardSchema = new mongoose.Schema ({
     room:  {
         type: String, 
         required: true,
@@ -9,7 +9,7 @@ const boardSchema = mongoose.Schema ({
         type: String,
         enum: [ 'Modern', 'Contemporary', 'Traditional', 'Rustic', 'Industrial', 'Scandinavian', 
         'Bohemian', 'Mid-Century Modern', 'Transitional', 'Art Deco', 'Farmhouse', 'Mediterranean',
-        'Eclectic', 'Vintage', 'Orangic Modern', 'Minimalist'],
+        'Eclectic', 'Vintage', 'Organic Modern', 'Minimalist'],
         require: true,
     },
 

@@ -65,7 +65,7 @@ app.get('/', (req,res) => {
 app.use('/auth', authController);
 app.use(isSignedIn);
 app.use('/allusers', allusersController);
-app.use('/users', boardController);
+app.use('/users/:userId/boards', boardController);
 
 
 

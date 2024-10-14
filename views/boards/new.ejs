@@ -16,7 +16,7 @@
     <div class="newPost">
         <div class="square2"></div>
     <div class="main2">
-        <form action="/users/<%= userId %>/boards" method="POST" enctype="multipart/form-data">
+        <form action="/users/<%= user._id %>/boards" method="POST" enctype="multipart/form-data">
 
             <input type="text" name="room" id="room" placeholder="Living Room, Bedroom etc." required/>
             <br/>
