@@ -13,6 +13,7 @@
         </div>
         </div>
     <h1><%= user.username %>'s Profile</h1>
+    <div class="userBoards">
     <ul>
         <% if (boards && boards.length > 0) { %>
             <% boards.forEach((board) => { %>
@@ -29,5 +30,6 @@
             <li>No boards available.</li>
         <% } %>
     </ul>
+</div>
 </body>
 </html>

@@ -500,3 +500,15 @@ outline: none;
   background-color: #010101; 
   border-radius: 4px; 
 }
+
+.userBoards ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+}
